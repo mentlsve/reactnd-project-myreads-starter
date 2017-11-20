@@ -38,7 +38,8 @@ class BooksApp extends React.Component {
     BooksAPI.update(book, shelf)
     console.log("setting new shelf for " + book.id + " to " + shelf)
     this.setState((prevState) => ({
-      books: [...this.state.books, book]
+      books: [...this.state.books, book],
+      searchResults: this.state.searchResults.filter(e => e.id !== book.id)
     }))
   }
 
