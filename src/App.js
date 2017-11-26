@@ -1,7 +1,4 @@
 import React from 'react'
-import Bookshelf from './Bookshelf'
-import Book from './Book'
-import { Link } from 'react-router-dom'
 import { Route } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
@@ -15,7 +12,7 @@ class BooksApp extends React.Component {
 
   componentDidMount() {
     console.log("ComponentDidMount")
-    BooksAPI.getAll().then(books => this.setState({books: books}))
+    BooksAPI.getAll().then(books => this.setState({ books: books }))
   }
 
   changeShelf = (book, shelf) => {
@@ -39,7 +36,7 @@ class BooksApp extends React.Component {
   render() {
     return (
       <div className="app">
-       <Route path="/search" render={(props)=>(
+        <Route path="/search" render={(props) => (
           <Search {...props} addToShelf={this.addToLibrary} />
         )} />
         <Route exact path="/" render={(props) => (
