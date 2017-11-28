@@ -13,8 +13,10 @@ class Search extends Component {
   }
 
   handleSearchInputChange = (event) => {
-    BooksAPI.search(event.target.value, 5).then(books => this.setState({ searchResults: books }))
-    this.setState({ searchQuery: event.target.value })
+    if(event.target.value.length > 0) {
+      BooksAPI.search(event.target.value, 5).then(books => this.setState({ searchResults: books }))
+      this.setState({ searchQuery: event.target.value })
+    }
   }
 
   handleBookAction = (book, shelf) => {
