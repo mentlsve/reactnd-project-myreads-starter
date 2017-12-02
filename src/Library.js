@@ -11,9 +11,9 @@ function Library(props) {
       </div>
       <div className="list-books-content">
         <div>
-          <Bookshelf shelf="Currently reading" changeCategory={props.changeShelf} books={props.books.filter(i => i.shelf === 'currentlyReading')} />
-          <Bookshelf shelf="Want to read" changeCategory={props.changeShelf} books={props.books.filter(i => i.shelf === 'wantToRead')} />
-          <Bookshelf shelf="Already read" changeCategory={props.changeShelf} books={props.books.filter(i => i.shelf === 'read')} />
+          <Bookshelf shelf="Currently reading" onChangeShelf={props.onChangeShelf} books={props.books.filter(i => i.shelf === 'currentlyReading')} />
+          <Bookshelf shelf="Want to read" onChangeShelf={props.onChangeShelf} books={props.books.filter(i => i.shelf === 'wantToRead')} />
+          <Bookshelf shelf="Already read" onChangeShelf={props.onChangeShelf} books={props.books.filter(i => i.shelf === 'read')} />
         </div>
       </div>
       <div className="open-search">

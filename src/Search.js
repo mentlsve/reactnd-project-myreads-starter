@@ -4,6 +4,7 @@ import Book from './Book'
 import * as BooksAPI from './BooksAPI'
 import { ToastContainer, toast } from 'react-toastify'
 import PropTypes from 'prop-types'
+import debounce from 'lodash.debounce'
 
 class Search extends Component {
 
@@ -12,15 +13,20 @@ class Search extends Component {
     searchResults: []
   }
 
+  searchBooks = debounce(() => {
+      if(this.state.searchQuery && this.state.searchQuery.length > 0) {
+        BooksAPI.search(this.state.searchQuery, 5).then(books => this.setState({ searchResults: books }))
+      }
+    }, 300)
+
+
   handleSearchInputChange = (event) => {
-    if(event.target.value.length > 0) {
-      BooksAPI.search(event.target.value, 5).then(books => this.setState({ searchResults: books }))
       this.setState({ searchQuery: event.target.value })
-    }
+      this.searchBooks(this.state.query)
   }
 
   handleBookAction = (book, shelf) => {
-    this.props.addToShelf(book, shelf)
+    this.props.onAddToShelf(book, shelf)
     toast.info(`Added "${book.title}" to your library`);
     this.setState({
       searchResults: this.state.searchResults.filter(e => e.id !== book.id)
@@ -51,7 +57,11 @@ class Search extends Component {
           <ol className="books-grid">
             {this.state.searchResults.length > 0 &&
               this.state.searchResults.map(book => {
-                return <li key={book.id}><Book book={book} changeCategory={this.handleBookAction} /></li>
+                if(this.props.books.find(e => e.id === book.id)) {
+                  console.log(book.title + " is already in library therefore not showing it in the search results for adding new books")
+                  return;
+                }
+                return <li key={book.id}><Book book={book} onChangeShelf={this.handleBookAction} /></li>
               })
             }
           </ol>
@@ -62,7 +72,7 @@ class Search extends Component {
 }
 
 Search.propTypes = {
-  addToShelf: PropTypes.func.isRequired
+  onAddToShelf: PropTypes.func.isRequired
 }
 
 export default Search
